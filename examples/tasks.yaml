@@ -1,0 +1,54 @@
+# Example task suite for browser-agent-eval.
+# All targets are stable public pages — no login required.
+version: 1
+tasks:
+  - name: wikipedia-gdp-top5
+    startUrl: https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)
+    goal: Extract the top 5 countries by nominal GDP as structured data (country name and GDP value).
+    assertions:
+      - type: text_present
+        value: United States
+      - type: schema
+        value:
+          type: object
+          required: [countries]
+          properties:
+            countries:
+              type: array
+              minItems: 5
+              items:
+                type: object
+                required: [country]
+                properties:
+                  country: { type: string }
+                  gdpUsdTrillions: { type: number }
+      - type: no_error
+
+  - name: github-pricing-plans
+    startUrl: https://github.com/pricing
+    goal: Reach the GitHub pricing page and extract the available plan names.
+    assertions:
+      - type: url_contains
+        value: pricing
+      - type: text_present
+        value: Enterprise
+      - type: schema
+        value:
+          type: object
+          required: [plans]
+          properties:
+            plans:
+              type: array
+              minItems: 3
+              items: { type: string }
+      - type: no_error
+
+  - name: example-domain-basics
+    startUrl: https://example.com
+    goal: Load example.com and confirm the page title and heading.
+    assertions:
+      - type: url_contains
+        value: example.com
+      - type: text_present
+        value: Example Domain
+      - type: no_error
