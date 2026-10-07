@@ -1,4 +1,4 @@
-# browser-agent-eval
+# Trajecta <img src="trajecta-logo.png" alt="Trajecta logo" width="48">
 
 A regression eval harness for browser agents (v1 prototype).
 
